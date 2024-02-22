@@ -1,0 +1,27 @@
+@startuml Roof_Surface_signup
+skinparam Style strictuml
+skinparam SequenceMessageAlignment center
+actor User as user
+participant Web_Application as web_app
+participant Fastapi as fastapi
+participant MongoDB_database as base
+participant Storage as storage
+user -> web_app : 1.Enter data and click sign up button
+web_app -> fastapi : 2.HTTP POST /sign_up
+fastapi -> base : 3.Find username
+alt username not exists exists in database 
+    base --> fastapi :4.Return username has not found
+    fastapi -> base : 5.Insert user data
+    fastapi --> web_app : 6.HTTP RESPONSE sign up success
+    web_app -> fastapi :7.HTTP POST /upload_user_file
+    fastapi -> storage : 8.Keep file in storage
+    fastapi -> base : 9. Update user file path
+    fastapi --> web_app : 10. HTTP RESPONSE uploadfile success
+    web_app --> user : 11.Sign up succeeded
+else username already in database
+    base --> fastapi : 4.Return user has found
+    fastapi --> web_app : 5.HTTP RESPONSE sign up fail
+    web_app --> user : 6.Show this username already used
+end
+
+@enduml

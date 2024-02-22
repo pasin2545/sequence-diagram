@@ -1,0 +1,17 @@
+@startuml Roof_Surface_viewHistory
+skinparam Style strictuml
+skinparam SequenceMessageAlignment center
+actor User as user
+participant Web_Application as web_app
+participant Fastapi as fastapi
+participant MongoDB_database as base
+participant Storage as storage
+user -> web_app : 1.Click view button
+web_app -> fastapi : 2.HTTP GET /get_image
+fastapi -> base : 3.Get image data
+base --> fastapi : 4.Return image data
+fastapi --> web_app : 5.HTTP RESPONSE image data
+web_app -> storage : 6.Get image by image path
+base --> web_app : 7.Return image
+web_app --> user : 8.Show all image
+@enduml

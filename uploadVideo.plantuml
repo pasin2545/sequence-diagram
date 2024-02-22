@@ -1,0 +1,30 @@
+@startuml Roof_Surface_addNewHistory
+skinparam Style strictuml
+skinparam SequenceMessageAlignment center
+actor User as user
+participant Web_Application as web_app
+participant Fastapi as fastapi
+participant Yolo_Model as yolo
+participant MongoDB_database as base
+participant Storage as storage
+user -> web_app :1.Click upload button \nand upload video and data
+user -> web_app :2.Click process button
+web_app -> fastapi : 3.HTTP POST /upload_video_srt_file
+fastapi -> storage : 4.Store video and srt file
+fastapi --> web_app :5.HTTP RESPONSE video path
+web_app -> fastapi :6.HTTP POST /extract_video
+fastapi -> storage :7.Get video and srt
+storage --> fastapi :8.Return video and srt
+fastapi -> fastapi : 9.Extract video to image
+fastapi -> fastapi : 10.Push GPS data from srt file to image
+fastapi -> storage : 11.Store all image
+fastapi -> base : 12.Insert image data
+fastapi -> storage : 13.Delete video
+fastapi -> yolo : 14.Push image path
+yolo -> storage : 15.Get image from path
+storage --> yolo : 16.Return image
+yolo -> yolo : 17.Detect image by model
+yolo --> fastapi : 18.Return defect data
+fastapi -> base : 19.Insert defect data
+fastapi --> web_app : 20.HTTP RESPONSE extract video success
+@enduml

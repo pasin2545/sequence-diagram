@@ -1,0 +1,51 @@
+@startuml Roof_Surface_Admin_manageFactory
+skinparam Style strictuml
+skinparam SequenceMessageAlignment center
+actor Admin as admin
+participant Web_Application as web_app
+participant Fastapi as fastapi
+participant MongoDB_database as base
+admin -> web_app : 1.Open manage factory page
+web_app -> fastapi : 2.HTTP GET /get_admin_manage_factory
+fastapi -> base : 3.Find all factory
+base --> fastapi : 4.Return list of all factory
+fastapi --> web_app : 5.HTTP RESPONSE list of all factory
+web_app --> admin : 6.Show factory
+alt Remove factory
+admin -> web_app : 7.Click remove button
+web_app -> fastapi : 8.HTTP DELETE /factory/{factory_name_and_detail}
+fastapi -> base : 9.Find building by factory id
+fastapi -> base :10.Find history by building id
+fastapi -> base : 11.Find image by history id
+fastapi -> base : 12.Find defect data by image id
+fastapi -> base : 13.Delete defect data
+base --> fastapi : 14.Delete defect data success
+fastapi -> base : 15.Delete image data
+base --> fastapi : 16.Delete image data success
+fastapi -> base : 17.Delete history data
+base --> fastapi : 18.Delete history data success 
+fastapi -> base : 19.Delete building
+base -> fastapi : 20.Delete building success
+fastapi -> base : 21.Delete factory 
+base -> fastapi : 22.Delete factory success
+fastapi -> storage : 13.Delete path by factory path
+fastapi --> web_app : 20.HTTP RESPONSE delete succeed
+web_app -> fastapi : 12.HTTP GET /get_admin_manage_factory
+fastapi -> base : 13.Find all factory
+base --> fastapi : 14.Return list of all factory
+fastapi --> web_app : 15.HTTP RESPONSE list of all factory
+web_app --> admin : 16.Show factory
+else Disable factory
+admin -> web_app : 7.Click disable button
+web_app -> fastapi : 8.HTTP PUT /put_change_facto_status
+fastapi -> base : 9.Change factory status
+base -> fastapi : 10.Return new factory status
+fastapi --> web_app : 11.HTTP RESPONSE new factory status
+web_app -> fastapi : 12.HTTP GET /get_admin_manage_factory
+fastapi -> base : 13.Find all factory
+base --> fastapi : 14.Return list of all factory
+fastapi --> web_app : 15.HTTP Response list of all factory
+web_app --> admin : 16.Show factory
+
+end
+@enduml

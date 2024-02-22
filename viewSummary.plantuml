@@ -1,0 +1,16 @@
+@startuml Roof_Surface_addNewHistory
+skinparam Style strictuml
+skinparam SequenceMessageAlignment center
+actor User as user
+participant Web_Application as web_app
+participant Fastapi as fastapi
+participant MongoDB_database as base
+user -> web_app : 1.Enter to history summary page
+web_app -> fastapi : 2.HTTP GET /get_summary_user_verified
+fastapi -> base : 3.Find history data
+base --> fastapi : 4.Return history data
+fastapi -> base : 5.Find defect data 
+base --> fastapi : 6.Return defect data
+fastapi --> web_app : 7.HTTP RESPONSE list of defect summary
+web_app --> user : 8.Show defect summary
+@enduml

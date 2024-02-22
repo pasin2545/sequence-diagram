@@ -1,0 +1,26 @@
+@startuml Roof_Surface_deleteBuilding
+skinparam Style strictuml
+skinparam SequenceMessageAlignment center
+actor User as user
+participant Web_Application as web_app
+participant Fastapi as fastapi
+participant MongoDB_database as base
+user -> web_app : 1.Click delete building button
+web_app -> fastapi : 2.HTTP DELETE /building/{building_id}
+fastapi -> base : 3.Delete Building
+base --> fastapi : 4.Return delete building success 
+fastapi -> base : 5.Delete history
+base --> fastapi : 6.Return delete history success
+fastapi -> base : 7.Delete image
+base --> fastapi : 8.Return delete image success
+fastapi -> base : 9.Delete defect in image
+base --> fastapi : 10.Return delete defect success
+fastapi --> web_app : 11.HTTP RESPONSE delete builind success
+web_app -> fastapi : 12.HTTP GET /get_user_factory
+fastapi -> base : 13.Find factory which\n user have permission 
+base --> fastapi : 14.Return fatory data
+fastapi -> base : 15.Find building in factory
+base --> fastapi : 16.Return building name and id
+fastapi --> web_app : 17.HTTP RESPONSE factory \nand building data
+web_app --> user : 18.Show list of factory and builing
+@enduml

@@ -1,0 +1,21 @@
+@startuml Roof_Surface_Login
+skinparam Style strictuml
+skinparam SequenceMessageAlignment center
+actor User as user
+participant Web_Application as web_app
+participant Fastapi as fastapi
+participant MongoDB_database as base
+user -> web_app : 1.Enter username and password\n then click login button
+web_app -> fastapi : 2.HTTP POST /login_token  
+fastapi -> fastapi :3.Hash password
+fastapi -> base : 4.Find and verify username\n and heashed password
+alt username and password are correct and admin is verify
+    base --> fastapi : 4.Return user account has found
+    fastapi --> web_app : 5.HTTP RESPONSE user token
+    web_app --> user : 6.Logion succeeded
+else username or password is wrong or admin is not verify
+    base --> fastapi : 4.Return user account has not found
+    fastapi --> web_app : 5.HTTP RESPONSE 401 unauthorized
+    web_app --> user : 6.Warn The identity has not been verified \nor Incorrect username or password
+end
+@enduml

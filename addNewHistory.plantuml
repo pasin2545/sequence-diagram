@@ -1,0 +1,27 @@
+@startuml Roof_Surface_addNewHistory
+skinparam Style strictuml
+skinparam SequenceMessageAlignment center
+actor User as user
+participant Web_Application as web_app
+participant Fastapi as fastapi
+participant MongoDB_database as base
+user -> web_app : 1.Select building
+web_app -> fastapi : 2.HTTP GET /get_history
+fastapi -> base : 3.Find building history data
+base --> fastapi : 4.Return building history data
+fastapi --> web_app : 5.HTTP RESPONSE building\n history data
+web_app --> user : 6.Show building history data
+alt Create new history
+user -> web_app : 7.User click create new history
+web_app -> fastapi : 8.HTTP POST /post_history
+fastapi -> base : 9.Insert history data
+base --> fastapi : 10.Return insert success
+fastapi --> web_app : 11.HTTP RESPONSE insert\n history data success
+web_app -> fastapi : 12.HTTP GET /get_history
+fastapi -> base : 13.Find building history data
+base --> fastapi : 14.Return building history data
+fastapi --> web_app : 15.HTTP RESPONSE building\n history data
+web_app --> user : 16.Show building history data
+end
+
+@enduml

@@ -1,0 +1,30 @@
+@startuml Roof_Surface_addBuilding
+skinparam Style strictuml
+skinparam SequenceMessageAlignment center
+actor User as user
+participant Web_Application as web_app
+participant Fastapi as fastapi
+participant MongoDB_database as base
+user -> web_app : 1.Enter to home page
+web_app -> fastapi : 2.HTTP GET /get_user_factory
+fastapi -> base : 3.Find factory which\n user have permission 
+base --> fastapi : 4.Return fatory data
+fastapi -> base : 5.Find building in factory
+base --> fastapi : 6.Return building name and id
+fastapi --> web_app : 7.HTTP RESPONSE factory \nand building data
+web_app --> user : 8.Show list of factory and builing
+alt Create new building
+user -> web_app : 9.Enter building detail\n and click confirm
+web_app -> fastapi : 10.HTTP POST /post_building
+fastapi -> base : 11.Insert building data
+base --> fastapi : 12.Return insert success
+fastapi --> web_app : 13.HTTP RESPONSE add\n building success
+web_app -> fastapi : 14.HTTP GET /get_user_factory
+fastapi -> base : 15.Find factory which\n user have permission 
+base --> fastapi : 16.Return fatory data
+fastapi -> base : 17.Find building in factory
+base --> fastapi : 18.Return building name and id
+fastapi --> web_app : 19.HTTP RESPONSE factory \nand building data
+web_app --> user : 20.Show list of factory and builing
+end
+@enduml 
