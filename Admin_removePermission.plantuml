@@ -4,22 +4,25 @@ skinparam SequenceMessageAlignment center
 actor Admin as admin
 participant Web_Application as web_app
 participant Fastapi as fastapi
-participant MongoDB_database as base
+participant MongoDB_permission as permission
+participant MongoDB_user as user
 admin -> web_app : 1.Click remove button
 web_app -> fastapi : 2.HTTP DELETE /delete_permit_user 
-fastapi -> base : 3.Delete permission by user id
-base --> fastapi : 4.Return delete success
+fastapi -> permission : 3.Delete permission by user id
+permission --> fastapi : 4.Return delete success
 fastapi --> web_app : 5.HTTP RESPONSE delete success
 web_app -> fastapi : 6.HTTP GET /get_permission_factory
-fastapi -> base : 7.Find permission by facory id
-base --> fastapi : 8.Return permission
-fastapi -> base : 9.Find user by user id\n in permission
-base --> fastapi : 10.Return list of user
+fastapi -> permission : 7.Find permission by facory id
+permission --> fastapi : 8.Return permission
+fastapi -> user : 9.Find user by user id\n in permission
+user --> fastapi : 10.Return list of user
 fastapi --> web_app : 11.HTTP RESPONSE list of user
 web_app -> fastapi : 12.HTTP GET /get_not_permission_factory
-fastapi -> base : 13.Find user don't have permssion
-base --> fastapi : 14.Return list of user
-fastapi --> web_app : 15.HTTP RESPONSE list of user
-web_app --> admin : 16.Show list of user who have\n and don't have permission
+fastapi -> permission : 13.Find user don't have permssion
+permission --> fastapi : 14.Return list of user
+fastapi -> user : 15. Find user by user id
+user --> fastapi : 16. Return list of user with user data
+fastapi --> web_app : 17.HTTP RESPONSE list of user
+web_app --> admin : 18.Show list of user who have\n and don't have permission
 
 @enduml

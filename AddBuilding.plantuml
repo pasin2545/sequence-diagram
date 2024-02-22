@@ -4,27 +4,31 @@ skinparam SequenceMessageAlignment center
 actor User as user
 participant Web_Application as web_app
 participant Fastapi as fastapi
-participant MongoDB_database as base
+participant MongoDB_Factory as factory
+participant MongoDB_Building as building
+participant MongoDB_Permission as permission
 user -> web_app : 1.Enter to home page
 web_app -> fastapi : 2.HTTP GET /get_user_factory
-fastapi -> base : 3.Find factory which\n user have permission 
-base --> fastapi : 4.Return fatory data
-fastapi -> base : 5.Find building in factory
-base --> fastapi : 6.Return building name and id
+fastapi -> factory : 3.Find factory which\n user have permission 
+factory --> fastapi : 4.Return fatory data
+fastapi -> building : 5.Find building in factory
+building --> fastapi : 6.Return building name and id
 fastapi --> web_app : 7.HTTP RESPONSE factory \nand building data
 web_app --> user : 8.Show list of factory and builing
 alt Create new building
 user -> web_app : 9.Enter building detail\n and click confirm
 web_app -> fastapi : 10.HTTP POST /post_building
-fastapi -> base : 11.Insert building data
-base --> fastapi : 12.Return insert success
+fastapi -> building : 11.Insert building data
+building --> fastapi : 12.Return insert success
 fastapi --> web_app : 13.HTTP RESPONSE add\n building success
 web_app -> fastapi : 14.HTTP GET /get_user_factory
-fastapi -> base : 15.Find factory which\n user have permission 
-base --> fastapi : 16.Return fatory data
-fastapi -> base : 17.Find building in factory
-base --> fastapi : 18.Return building name and id
-fastapi --> web_app : 19.HTTP RESPONSE factory \nand building data
-web_app --> user : 20.Show list of factory and builing
+fastapi -> permission : 15.Find permission user have
+permission --> fastapi : 16.Return permission user have 
+fastapi -> factory : 17.Find factory which\n user have permission 
+factory --> fastapi : 18.Return fatory data
+fastapi -> building : 19.Find building in factory
+building --> fastapi : 20.Return building name and id
+fastapi --> web_app : 21.HTTP RESPONSE factory \nand building data
+web_app --> user : 22.Show list of factory and builing
 end
 @enduml 

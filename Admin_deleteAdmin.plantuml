@@ -4,22 +4,22 @@ skinparam SequenceMessageAlignment center
 actor Admin as admin
 participant Web_Application as web_app
 participant Fastapi as fastapi
-participant MongoDB_database as base
+participant MongoDB_user as user
 admin -> web_app : 1.Click manage admin page
 web_app -> fastapi : 2.HTTP Request /get admin 
-fastapi -> base : 3.Find all admin's data
-base --> fastapi : 4.Return list of all admin's data
+fastapi -> user : 3.Find all admin's data
+user --> fastapi : 4.Return list of all admin's data
 fastapi --> web_app : 5.HTTP Response list of all admin's data
 web_app --> admin : 6.Show all admin's data
 alt Delete admin account
 admin -> web_app : 7.Click delete button 
 web_app -> fastapi : 8.HTTP Delete /user/{username}
-fastapi -> base : 9.Find admin and delete
-base --> fastapi : 10.Return delete success
+fastapi -> user : 9.Find admin and delete
+user --> fastapi : 10.Return delete success
 fastapi --> web_app : 11.HTTP Response delete success
 web_app -> fastapi : 12.HTTP Request /get admin 
-fastapi -> base : 13.Find all admin's data
-base --> fastapi : 14.Return list of all admin's data
+fastapi -> user : 13.Find all admin's data
+user --> fastapi : 14.Return list of all admin's data
 fastapi --> web_app : 15.HTTP Response list of all admin's data
 web_app --> admin : 16.Show all admin's data
 end

@@ -5,7 +5,8 @@ actor User as user
 participant Web_Application as web_app
 participant Fastapi as fastapi
 participant Yolo_Model as yolo
-participant MongoDB_database as base
+participant MongoDB_image as image
+participant MongoDB_defectlo as defectlo
 participant Storage as storage
 user -> web_app :1.Click upload button \nand upload video and data
 user -> web_app :2.Click process button
@@ -18,13 +19,13 @@ storage --> fastapi :8.Return video and srt
 fastapi -> fastapi : 9.Extract video to image
 fastapi -> fastapi : 10.Push GPS data from srt file to image
 fastapi -> storage : 11.Store all image
-fastapi -> base : 12.Insert image data
+fastapi -> image : 12.Insert image data
 fastapi -> storage : 13.Delete video
 fastapi -> yolo : 14.Push image path
 yolo -> storage : 15.Get image from path
 storage --> yolo : 16.Return image
 yolo -> yolo : 17.Detect image by model
 yolo --> fastapi : 18.Return defect data
-fastapi -> base : 19.Insert defect data
+fastapi -> defectlo : 19.Insert defect data
 fastapi --> web_app : 20.HTTP RESPONSE extract video success
 @enduml

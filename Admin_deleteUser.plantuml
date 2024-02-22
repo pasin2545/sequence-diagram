@@ -4,16 +4,16 @@ skinparam SequenceMessageAlignment center
 actor Admin as admin
 participant Web_Application as web_app
 participant Fastapi as fastapi
-participant MongoDB_database as base
+participant MongoDB_user as user
 
 admin -> web_app : 1.Click delete button
-web_app -> fastapi : 2.HTTP DELETE /user/{username}
-fastapi -> base : 3.Delete user
-base --> fastapi : 4.Return delete Success
+web_app -> fastapi : 2.HTTP DELETE /user
+fastapi -> user : 3.Delete user
+user --> fastapi : 4.Return delete Success
 fastapi --> web_app : 5.HTTP RESPONSE delete user success
 web_app -> fastapi : 6.HTTP GET /get_user_verified
-fastapi -> base : 7.Find verified user
-base --> fastapi : 8.Return verified user list
+fastapi -> user : 7.Find verified user
+user --> fastapi : 8.Return verified user list
 fastapi --> web_app : 9.HTTP RESPONSE verified user list
 web_app --> admin : 10.Show list of verified user
 

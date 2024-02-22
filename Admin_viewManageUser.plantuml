@@ -4,15 +4,17 @@ skinparam SequenceMessageAlignment center
 actor Admin as admin
 participant Web_Application as web_app
 participant Fastapi as fastapi
-participant MongoDB_database as base
+participant MongoDB_user as user
 admin -> web_app : 1.Choose manage user page
 web_app -> fastapi : 2.HTTP GET /get_user_verified
-fastapi -> base : 3.Find verified user
-base --> fastapi : 4.Return verified user
+fastapi -> user : 3.Find verified user
+user --> fastapi : 4.Return verified user
 fastapi --> web_app : 5.HTTP RESPONSE list of verified user
 web_app --> admin : 6.Show list of verified user
 alt Download user verified file
 admin -> web_app : 7.Click download user verified file
-web_app -> fastapi : 8.HTTP
+web_app -> fastapi : 8.HTTP GET user verified file
+fastapi --> web_app : 9.HTTP RESPONSE user verified file
+web_app --> admin : 10.Download user verified file
 end
 @enduml

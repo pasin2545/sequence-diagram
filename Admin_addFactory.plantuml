@@ -4,11 +4,11 @@ skinparam SequenceMessageAlignment center
 actor Admin as admin
 participant Web_Application as web_app
 participant Fastapi as fastapi
-participant MongoDB_database as base
+participant MongoDB_factory as factory
 admin -> web_app : 1.Enter factory data and click submit
 web_app -> fastapi : 2.HTTP Post /post_factory
-fastapi -> base : 3.Insert factory
-base --> fastapi : 4.Return insert success
+fastapi -> factory : 3.Insert factory
+factory --> fastapi : 4.Return insert success
 fastapi --> web_app : 5.HTTP Response insert success
 web_app --> admin : 6.Add factory success
 @enduml

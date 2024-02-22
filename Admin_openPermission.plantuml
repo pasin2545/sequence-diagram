@@ -4,25 +4,29 @@ skinparam SequenceMessageAlignment center
 actor Admin as admin
 participant Web_Application as web_app
 participant Fastapi as fastapi
-participant MongoDB_database as base
+participant MongoDB_factory as factory
+participant MongoDB_permission as permission
+participant MongoDB_user as user
 admin -> web_app : 1.Select add permission page 
 web_app -> fastapi : 2.HTTP GET /get_admin_factory
-fastapi -> base : 3.Find factory 
-base --> fastapi : 4.Return list of factory
+fastapi -> factory : 3.Find factory 
+factory --> fastapi : 4.Return list of factory
 fastapi --> web_app : 5.HTTP RESPONSE list of factory
 web_app --> admin : 6.Show list of factory
 alt Select factory
 admin -> web_app : 7.Click select button 
 web_app -> fastapi : 8.HTTP GET /get_permission_factory
-fastapi -> base : 9.Find permission by facory id
-base --> fastapi : 10.Return permission
-fastapi -> base : 11.Find user by user id\n in permission
-base --> fastapi : 12.Return list of user
+fastapi -> permission : 9.Find permission by factory id
+permission --> fastapi : 10.Return permission
+fastapi -> user : 11.Find user by user id\n in permission
+user --> fastapi : 12.Return list of user
 fastapi --> web_app : 13.HTTP RESPONSE list of user
 web_app -> fastapi : 14.HTTP GET /get_not_permission_factory
-fastapi -> base : 15.Find user don't have permssion
-base --> fastapi : 16.Return list of user
-fastapi --> web_app : 17.HTTP RESPONSE list of user
-web_app --> admin : 18.Show list of user who have\n and don't have permission
+fastapi -> permission : 15.Find user don't have permssion
+permission --> fastapi : 16.Return list of user
+fastapi -> user : 17. Find user by user id
+user --> fastapi : 18. Return list of user with user data
+fastapi --> web_app : 19.HTTP RESPONSE list of user
+web_app --> admin : 20.Show list of user who have\n and don't have permission
 end
 @enduml

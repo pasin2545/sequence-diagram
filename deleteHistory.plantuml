@@ -4,25 +4,27 @@ skinparam SequenceMessageAlignment center
 actor User as user
 participant Web_Application as web_app
 participant Fastapi as fastapi
-participant MongoDB_database as base
+participant MongoDB_history as history
+participant MongoDB_image as image
+participant MongoDB_defectlo as defect
 participant Storage as storage
 user -> web_app : 1.Click delete history button
 web_app -> fastapi : 2.HTTP DELETE /delete_history
-fastapi -> base : 3.Find history by history id
-base --> fastapi : 4.Return history data
-fastapi -> base : 5.Find image by history id
-fastapi -> base : 6.Find defect data by image id
-fastapi -> base : 7.Delete defect data
-base --> fastapi : 8.Delete defect data success
-fastapi -> base : 9.Delete image data
-base --> fastapi : 10.Delete image data success
-fastapi -> base : 11.Delete history data
-base --> fastapi : 12.Delete history data success 
+fastapi -> history : 3.Find history by history id
+history --> fastapi : 4.Return history data
+fastapi -> image : 5.Find image by history id
+fastapi -> defect : 6.Find defect data by image id
+fastapi -> defect : 7.Delete defect data
+defect --> fastapi : 8.Delete defect data success
+fastapi -> image : 9.Delete image data
+image --> fastapi : 10.Delete image data success
+fastapi -> history : 11.Delete history data
+history --> fastapi : 12.Delete history data success 
 fastapi -> storage : 13.Delete path by history path
 fastapi --> web_app : 14.HTTP RESPONSE delete succeed
 web_app -> fastapi : 15.HTTP GET /get_history
-fastapi -> base : 16.Find building history data
-base --> fastapi : 17.Return building history data
+fastapi -> history : 16.Find building history data
+history --> fastapi : 17.Return building history data
 fastapi --> web_app : 18.HTTP RESPONSE building\n history data
 web_app --> user : 19.Show building history data
 @enduml
