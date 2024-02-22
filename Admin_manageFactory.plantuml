@@ -29,9 +29,9 @@ image --> fastapi : 16.Delete image data success
 fastapi -> history : 17.Delete history data
 history --> fastapi : 18.Delete history data success 
 fastapi -> building : 19.Delete building
-building -> fastapi : 20.Delete building success
+building --> fastapi : 20.Delete building success
 fastapi -> factory : 21.Delete factory 
-factory -> fastapi : 22.Delete factory success
+factory --> fastapi : 22.Delete factory success
 fastapi -> storage : 23.Delete path by factory path
 fastapi --> web_app : 24.HTTP RESPONSE delete succeed
 web_app -> fastapi : 25.HTTP GET /get_admin_manage_factory

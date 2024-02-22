@@ -16,5 +16,12 @@ admin -> web_app : 7.Click download user verified file
 web_app -> fastapi : 8.HTTP GET user verified file
 fastapi --> web_app : 9.HTTP RESPONSE user verified file
 web_app --> admin : 10.Download user verified file
+else Delete verified user
+admin -> web_app : 7.Delete verified user
+web_app -> fastapi : 8.HTTP DELETE /user
+fastapi -> user : 9.Find and delete user
+user --> fastapi : 10.Return user deleted
+fastapi --> web_app : 11.HTTP RESPONSE user deleted
+web_app --> admin : 12.User deleted
 end
 @enduml

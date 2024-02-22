@@ -14,14 +14,15 @@ web_app --> user : 6.Show building history data
 alt Create new history
 user -> web_app : 7.User click create new history
 web_app -> fastapi : 8.HTTP POST /post_history
-fastapi -> history : 9.Insert history data
-history --> fastapi : 10.Return insert success
-fastapi --> web_app : 11.HTTP RESPONSE insert\n history data success
-web_app -> fastapi : 12.HTTP GET /get_history
-fastapi -> history : 13.Find building history data
-history --> fastapi : 14.Return building history data
-fastapi --> web_app : 15.HTTP RESPONSE building\n history data
-web_app --> user : 16.Show building history data
+fastapi -> Storage : 9.Create history path
+fastapi -> history : 10.Insert history data
+history --> fastapi : 11.Return insert success
+fastapi --> web_app : 12.HTTP RESPONSE insert\n history data success
+web_app -> fastapi : 13.HTTP GET /get_history
+fastapi -> history : 14.Find building history data
+history --> fastapi : 15.Return building history data
+fastapi --> web_app : 16.HTTP RESPONSE building\n history data
+web_app --> user : 17.Show building history data
 end
 
 @enduml

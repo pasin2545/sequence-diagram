@@ -1,0 +1,34 @@
+@startuml Roof_Surface_Admin_deleteUser
+skinparam Style strictuml
+skinparam SequenceMessageAlignment center
+actor Admin as admin
+participant Web_Application as web_app
+participant Fastapi as fastapi
+participant MongoDB_user as user
+admin -> web_app : 1.Choose verify user page
+web_app -> fastapi : 2.HTTP GET /get_user_not_verified
+fastapi -> user : 3.Find not verified user
+user --> fastapi : 4.Return not verified user
+fastapi --> web_app : 5.HTTP RESPONSE list of not verified user
+web_app --> admin : 6.Show list of not verified user
+alt Download user verified file
+admin -> web_app : 7.Click download user verified file
+web_app -> fastapi : 8.HTTP GET user verified file
+fastapi --> web_app : 9.HTTP RESPONSE user verified file
+web_app --> admin : 10.Download user verified file
+else Approve not verified user
+admin -> web_app : 7.Approve not verified user
+web_app -> fastapi : 8.HTTP PUT /put_verified
+fastapi -> user : 9.Find and update is_verified
+user --> fastapi : 10.Return user updated
+fastapi --> web_app : 11.HTTP RESPONSE user verified
+web_app --> admin : 12.User verified
+else Deny not verified user
+admin -> web_app : 7.Deny not verified user
+web_app -> fastapi : 8.HTTP DELETE /user
+fastapi -> user : 9.Find and delete user
+user --> fastapi : 10.Return user deleted
+fastapi --> web_app : 11.HTTP RESPONSE user deleted
+web_app --> admin : 12.User denied
+end
+@enduml
